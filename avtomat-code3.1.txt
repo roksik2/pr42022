@@ -1,0 +1,125 @@
+int LED_rot=4;
+int LED_gruen=5;
+int SW1=2;
+int SW2=3;
+int SW3=6;
+int Buzzer=8;
+int x,y,z,code1,code2,code3,resetTimer=0;
+
+
+void Blink(void)
+{
+  digitalWrite(LED_rot,HIGH);
+  tone(Buzzer,500,150);
+  delay(200);
+  digitalWrite(LED_rot,LOW);
+}
+void Toggle_Flash(void)
+{
+  int tog=0;
+  for(x=0;x<3;x++)
+  {
+    if(tog==0) tog=1; else tog=0;
+    digitalWrite(LED_rot,tog);
+    tone(Buzzer,500,250);
+    delay(300);
+  }
+}
+void Clr_Code(void)
+{
+  x=0;
+  y=0;
+  z=0;
+  code1=0;
+  code2=0;
+  code3=0;
+  resetTimer=0;
+  delay(1000);
+}
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(LED_rot,OUTPUT);
+  pinMode(LED_gruen,OUTPUT);
+  pinMode(Buzzer,OUTPUT);
+  pinMode(SW1,INPUT);
+  digitalWrite(SW1,HIGH);
+  pinMode(SW2,INPUT);
+  digitalWrite(SW2,HIGH);
+  pinMode(SW3,INPUT);
+  digitalWrite(SW3,HIGH);
+  Clr_Code();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // Code 1
+  if (!digitalRead(SW1))
+  {
+    delay(50);
+    if (!digitalRead(SW1))
+    {
+      Blink();
+      x++;
+      if (x==2)
+      {
+        code1=true;
+      } else code1=false;
+      do {
+        
+      } while (!digitalRead(SW1));
+    }
+  }
+  // Code 2
+  if (!digitalRead(SW2))
+  {
+    delay(50);
+    if (!digitalRead(SW2))
+    {
+      Blink();
+      y++;
+      if (y==6)
+      {
+        code2=true;
+      } else code2=false;
+      do {
+        delay(50);
+        resetTimer++;
+        if (resetTimer>50)
+        {
+          Toggle_Flash();
+          Clr_Code();
+          break;
+        }
+      } while (!digitalRead(SW2));
+    }
+  }
+  // Code 3
+  if (!digitalRead(SW3))
+  {
+    delay(50);
+    if (!digitalRead(SW3))
+    {
+      Blink();
+      z++;
+      if (z==2)
+      {
+        code3=true;
+      } else code3=false;
+      do {
+      } while (!digitalRead(SW3));
+    }
+  }
+  if (code1==true&&code2==true&&code3==true)
+  {
+    digitalWrite(LED_gruen, HIGH);
+    Clr_Code();
+    delay(6000);
+    digitalWrite(LED_gruen,LOW);
+  }
+  else
+  {
+    digitalWrite(LED_gruen, LOW);
+  }
+}
+
