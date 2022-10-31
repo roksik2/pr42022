@@ -1,0 +1,24 @@
+int bulb1 = 11;
+int put1 = 6;
+int nals1 = 0;
+int bulb2 = 3;
+int put2 = 2;
+int nals2 = 0;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(bulb1, OUTPUT);
+  pinMode(put1, INPUT);
+  digitalWrite(put1, HIGH);
+  pinMode(bulb2, OUTPUT);
+  pinMode(put2, INPUT);
+  digitalWrite(put2, HIGH);
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  nals1 = digitalRead(put1);
+  digitalWrite(bulb1, nals1);
+  nals2 = digitalRead(put2);
+  digitalWrite(bulb2, nals2);  
+}
